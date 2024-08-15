@@ -1,0 +1,2 @@
+class ConfigORMError(Exception):
+    pass
