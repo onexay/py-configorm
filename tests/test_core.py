@@ -35,12 +35,12 @@ dotenv = """
     """
 
 
-class TestServiceConfig(BaseModel):
+class ServiceConfigTest(BaseModel):
     Host: str = Field(..., description="Host running the service")
     Port: int = Field(..., description="Port bound to the service")
 
 
-class TestStoreConfig(BaseModel):
+class StoreConfigTest(BaseModel):
     Url: PostgresDsn = Field(..., description="URL of the database")
     Debug: bool = Field(..., description="Enable debug mode")
     ConnectionPoolDebug: bool = Field(
@@ -48,14 +48,14 @@ class TestStoreConfig(BaseModel):
     )
 
 
-class TestCacheConfig(BaseModel):
+class CacheConfigTest(BaseModel):
     Url: RedisDsn = Field(..., description="URL of the cache")
 
 
-class TestConfig(ConfigSchema):
-    Service: TestServiceConfig = Field(..., description="Service configuration")
-    Store: TestStoreConfig = Field(..., description="Store configuration")
-    Cache: TestCacheConfig = Field(..., description="Cache configuration")
+class ConfigTest(ConfigSchema):
+    Service: ServiceConfigTest = Field(..., description="Service configuration")
+    Store: StoreConfigTest = Field(..., description="Store configuration")
+    Cache: CacheConfigTest = Field(..., description="Cache configuration")
 
 
 def test_valid_config_load():
@@ -73,12 +73,12 @@ def test_valid_config_load():
     dotenv_source = DOTENVSource(file_path=Path(config_file_dotenv))
 
     cfg_orm = ConfigORM(
-        schema=TestConfig, sources=[toml_source, json_source, dotenv_source]
+        schema=ConfigTest, sources=[toml_source, json_source, dotenv_source]
     )
 
-    cfg: TestConfig = cfg_orm.load_config()
+    cfg: ConfigTest = cfg_orm.load_config()
 
-    assert isinstance(cfg, TestConfig)
+    assert isinstance(cfg, ConfigTest)
 
     assert cfg.Service.Host == "localhost"
     assert cfg.Service.Port == 18080
@@ -95,5 +95,5 @@ def test_invalid_config_load():
     json_source = JSONSource(file_path=Path(config_file))
 
     with pytest.raises(ConfigORMError):
-        cfg_orm = ConfigORM(schema=TestConfig, sources=[json_source])
-        cfg: TestConfig = cfg_orm.load_config()
+        cfg_orm = ConfigORM(schema=ConfigTest, sources=[json_source])
+        cfg: ConfigTest = cfg_orm.load_config()

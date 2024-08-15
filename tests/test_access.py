@@ -33,8 +33,8 @@ yaml = """
     """
 
 dotenv = """
-    CFGORM_SERVICE__HOST=localhost
-    CFGORM_SERVICE__PORT=8080
+    CFGORM_Service__Host=localhost
+    CFGORM_Service__Port=8080
     """
 
 logger = getLogger("TestSources")
@@ -113,8 +113,8 @@ def test_dotenv_source_ro():
     config = source.load()
 
     assert isinstance(config, dict)
-    assert config["CFGORM_SERVICE__HOST"] == "localhost"
-    assert config["CFGORM_SERVICE__PORT"] == "8080"
+    assert config["Service"]["Host"] == "localhost"
+    assert config["Service"]["Port"] == "8080"
 
     config["CFGORM_SERVICE__PORT"] = 4000
     with pytest.raises(PermissionError):
