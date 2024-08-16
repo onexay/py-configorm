@@ -81,15 +81,15 @@ def test_yaml_source_load(tmp_path):
 
 
 def test_env_source_load(monkeypatch):
-    monkeypatch.setenv("MYAPP_HOST", "localhost")
-    monkeypatch.setenv("MYAPP_PORT", "8080")
+    monkeypatch.setenv("MYAPP_SERVICE__HOST", "localhost")
+    monkeypatch.setenv("MYAPP_SERVICE__PORT", "8080")
 
     source = ENVSource(prefix="MYAPP_")
     config = source.load()
 
     assert isinstance(config, dict)
-    assert config["HOST"] == "localhost"
-    assert config["PORT"] == "8080"
+    assert config["SERVICE"]["HOST"] == "localhost"
+    assert config["SERVICE"]["PORT"] == "8080"
 
 
 def test_dotenv_source_load(tmp_path):

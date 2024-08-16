@@ -13,7 +13,6 @@ from pathlib import Path
 
 import dotenv
 
-from configorm.exception import ConfigORMError
 from configorm.sources.base import SourceBase
 
 

@@ -1,0 +1,34 @@
+site_name: 'Configuration ORM for Python applications'
+docs_dir: ./docs
+
+theme:
+  name: 'readthedocs'
+
+nav:
+  - Home: index.md
+  - Core: core.md
+  - Sources:
+      - Environment Variables: sources/env.md
+      - DotEnv File: sources/dotenv.md
+      - TOML File: sources/toml.md
+      - YAML File: sources/yaml.md
+      - JSON File: sources/json.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          setup_commands:
+            - import sys
+            - sys.path.insert(0, 'configorm/')
+          options:
+            docstring_style: google
+            parameter_headings: true
+            show_root_toc_entry: true
+            show_inheritance_diagram: true
+            show_source: false
+            group_by_category: true
+            show_category_heading: true
+            show_symbol_type_toc: true
+            show_inheritance_toc: true

@@ -23,10 +23,16 @@ class ENVSource(SourceBase):
     configuration source. It provides methods to load and save configuration data
     from/to environment variables.
 
+    Environment variables are defined as per `[PREFIX]_[KEY][NESTING_SLUG][SUBKEY] = [VALUE]`
+    format. For example, if `PREFIX` is set to `CFGORM` and `NESTING_SLUG` is
+    set to `__`, then environment variables will be defined as 
+    `CFGORM_[KEY]__[SUBKEY] = VALUE`. For providing bidirectional mutation operations
+    for ORM, these variables need to be converted to a dictionary following the 
+    semantics of the user specified by subclassing [configorm.core.ConfigSchema][].
+
     Attributes:
         prefix (str): The prefix for environment variables.
-        nesting_slug (str): The string used to replace dots in the configuration
-            keys for environment variable names.
+        nesting_slug (str): The string used to determine nesting in environment variables.
 
     Methods:
         __init__(self, prefix: str = "CFGORM", readonly: bool = True, nesting_slug: str = "__"):
@@ -52,7 +58,7 @@ class ENVSource(SourceBase):
     """
 
     def __init__(
-        self, prefix: str = "CFGORM", readonly: bool = True, nesting_slug: str = "__"
+        self, prefix: str = "CFGORM_", readonly: bool = True, nesting_slug: str = "__"
     ):
         super().__init__(readonly)
         self._prefix = prefix
@@ -64,11 +70,26 @@ class ENVSource(SourceBase):
         Returns:
             dict: The loaded configuration data.
         """
-        return {
+        vars_ = {
             k[len(self._prefix) :]: v
             for k, v in os.environ.items()
             if k.startswith(self._prefix)
         }
+
+        data = {}
+        for key, value in vars_.items():
+            l1_keys = key.split(self._nesting_slug, maxsplit=1)
+            if l1_keys[0] in data:
+                if l1_keys[1] in data[l1_keys[0]]:
+                    data[l1_keys[0]][l1_keys[1]] = value
+                else:
+                    data[l1_keys[0]][l1_keys[1]] = {}
+                    data[l1_keys[0]][l1_keys[1]] = value
+            else:
+                data[l1_keys[0]] = {}
+                data[l1_keys[0]][l1_keys[1]] = value
+
+        return data
 
     def save(self, data: dict):
         """Save configuration data to this source.
@@ -78,6 +99,12 @@ class ENVSource(SourceBase):
         """
         if self.readonly:
             raise PermissionError("This source is read-only.")
-
-        for k, v in data.items():
-            os.environ[self._prefix + k.replace(self._nesting_slug, ".")] = str(v)
+        
+        for k0, v0 in data.items():
+            if isinstance(v0, dict):
+                for k1, v1 in v0.items():
+                    if isinstance(v1, dict):
+                        raise ValueError("Only one level of nesting is supported.")
+                    os.environ[self._prefix + k0 + self._nesting_slug + k1] = v1
+            else:
+                os.environ[self._prefix + k0] = v0

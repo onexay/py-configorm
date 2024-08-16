@@ -6,7 +6,7 @@ from configorm.exception import ConfigORMError
 
 
 class ConfigSchema(BaseModel):
-    """ "
+    """
     This is a placeholder schema for user-defined application configuration
     schema.
     """
@@ -64,6 +64,10 @@ class ConfigORM:
         Raises:
             PermissionError: If one of the sources is read-only.
         """
+
+        if len(self._sources) == 0:
+            raise ConfigORMError("No configuration sources specified")
+
         for source in self._sources:
             if not source.readonly:
                 source.save(self._config.model_dump())
