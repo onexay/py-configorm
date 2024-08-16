@@ -1,6 +1,8 @@
 # Config ORM
 
-A python library whoch uses ORM like semantics to application configuration. At present, it provides the expected functionality but requires some more work in terms of error handling. 
+![Test Status](https://github.com/onexay/py-configorm/actions/workflows/python-package.yml/badge.svg)
+
+A python library which provides ORM like semantics to application configuration. At present, it provides the expected functionality but requires some more work in terms of error handling. 
 
 The library works on the concept of configuration sources. Currently following sources are supported, 
 
@@ -12,7 +14,7 @@ The library works on the concept of configuration sources. Currently following s
 
 User defines a application settings schema by subclassing from Pydantic `BaseModel` class. User can choose one or more configuration sources to create a Pydantic object based on application configuration schema.
 
-Library will then try to read from all provided configuration sources and merge them to build the pydantic application configuration object. The order of configuration sources determine the priority of configuration values.
+Library will then try to read from all provided configuration sources and merge them to build the pydantic application configuration object. Configuration sources are provides as a list of objects and precedence and priority of sources is determined by ordering of the sources in the list, e.g. first source in the list has lowest precendence, last one has the highest.
 
 If the configuration supports, library provides ability to save functionality for the application configuration object. By default, write capability is disabled.
 
