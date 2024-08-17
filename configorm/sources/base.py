@@ -1,5 +1,5 @@
 """
-Configorm - A simple configuration library.
+ConfigORM - A simple configuration library.
 
 This is a python library for handling configuration data.
 

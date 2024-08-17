@@ -6,19 +6,23 @@ A python library which provides ORM like semantics to application configuration.
 
 The library works on the concept of configuration sources. Currently following sources are supported, 
 
-1. TOML
-2. JSON
-3. YAML
-4. DotEnv
-5. Environment Variables
+* [TOML](sources/toml.md)
+* [JSON](sources/json.md)
+* [YAML](sources/yaml.md)
+* [DotEnv](sources/dotenv.md)
+* [Environment Variables](sources/env.md)
 
-User defines a application settings schema by subclassing from Pydantic `BaseModel` class. User can choose one or more configuration sources to create a Pydantic object based on application configuration schema.
+User defines a application settings schema by subclassing from [ConfigSchema](core.md) class. User can choose one or more configuration sources to create a Pydantic object based on application configuration schema.
 
 Library will then try to read from all provided configuration sources and merge them to build the pydantic application configuration object.
 
-`Name of keys in configuration sources and confguration schema MUST match. It would have been nice to decouple two, but for the intended functionality, it's a minor enhancement.`
+## Important Note
+
+Name of keys in configuration sources and confguration schema MUST match. It would have been nice to decouple two, but for the intended functionality, it's a minor enhancement.
 
 Configuration sources are provided as a list of objects and precedence and priority of sources is determined by ordering of the sources in the list, e.g. first source in the list has lowest precendence, last one has the highest.
+
+## Read-Write Capability
 
 If the configuration supports, library provides ability to save functionality for the application configuration object. By default, write capability is disabled.
 
@@ -30,15 +34,37 @@ If the configuration supports, library provides ability to save functionality fo
 | `DotEnv` | Yes | No |
 | `Environment Variable` | Yes | Yes |
 
-Here is an example:
+## Example
+
+### Using JSON
 
 ```json
-    {
-        "Service": {
-            "Host": "localhost",
-            "Port": 18080
-        },
-    }
+{
+    "Service": {
+        "Host": "localhost",
+        "Port": 18080
+    },
+}
+```
+
+### Using TOML
+```toml
+[Service]
+Host = "localhost",
+Port = 18080
+```
+
+### Using YAML
+```yaml
+Service:
+    Host: "localhost"
+    Port: 18080
+```
+
+### Using DotEnv files / Environment variables
+```env
+CFGORM_SERVICE__HOST=localhost
+CFGORM_SERVICE__PORT=8080
 ```
 
 ```python

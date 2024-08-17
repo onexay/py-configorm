@@ -1,5 +1,5 @@
 """
-Configorm - A simple configuration library.
+ConfigORM - A simple configuration library.
 
 This module contains the DOTENVSource class, a class for a dotenv configuration
 source.

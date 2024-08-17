@@ -1,3 +1,13 @@
+"""
+ConfigORM - A simple configuration library.
+
+This module contains the ConfigORM class, a class for handling configuration data.
+
+Classes:
+    ConfigSchema (ConfigSchema): The ConfigSchema class.
+    ConfigORM (ConfigORM): The ConfigORM class.
+"""
+
 from typing import List, Type
 from pydantic import BaseModel
 import pydantic
@@ -7,8 +17,7 @@ from configorm.exception import ConfigORMError
 
 class ConfigSchema(BaseModel):
     """
-    This is a placeholder schema for user-defined application configuration
-    schema.
+    Base class for all user defined configuration schemas.
     """
 
     pass
@@ -33,6 +42,7 @@ class ConfigORM:
         """
         config_data = {}
         try:
+
             def merge_config(data, new_data):
                 for key, value in new_data.items():
                     if isinstance(value, dict) and key in data:
