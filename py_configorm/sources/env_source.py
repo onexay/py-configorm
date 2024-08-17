@@ -28,7 +28,7 @@ class ENVSource(SourceBase):
     set to `__`, then environment variables will be defined as 
     `CFGORM_[KEY]__[SUBKEY] = VALUE`. For providing bidirectional mutation operations
     for ORM, these variables need to be converted to a dictionary following the 
-    semantics of the user specified by subclassing [configorm.core.ConfigSchema][].
+    semantics of the user specified by subclassing [py_configorm.core.ConfigSchema][].
 
     Attributes:
         prefix (str): The prefix for environment variables.

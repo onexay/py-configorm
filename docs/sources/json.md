@@ -1,1 +1,1 @@
-::: configorm.sources.json_source
+::: py_configorm.sources.json_source

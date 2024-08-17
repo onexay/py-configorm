@@ -1,1 +1,1 @@
-::: configorm.core
+::: py_configorm.core

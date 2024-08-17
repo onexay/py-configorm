@@ -21,7 +21,7 @@ plugins:
         python:
           setup_commands:
             - import sys
-            - sys.path.insert(0, 'configorm/')
+            - sys.path.insert(0, 'py_configorm/')
           options:
             docstring_style: google
             parameter_headings: true

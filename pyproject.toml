@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "py-configorm"
-version = "0.1.0"
+name = "py_configorm"
+version = "0.1.1"
 description = "Configuration ORM for Python apps"
 authors = ["Akshay Ranjan <akshay.ranjan@gmail.com>"]
 license = "MIT"

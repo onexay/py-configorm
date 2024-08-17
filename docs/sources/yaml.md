@@ -1,1 +1,1 @@
-::: configorm.sources.yaml_source
+::: py_configorm.sources.yaml_source
