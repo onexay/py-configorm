@@ -1,4 +1,4 @@
-# Config ORM
+# Configuration ORM for Python applications
 
 ![Test Status](https://github.com/onexay/py-configorm/actions/workflows/python-package.yml/badge.svg)
 
@@ -14,7 +14,11 @@ The library works on the concept of configuration sources. Currently following s
 
 User defines a application settings schema by subclassing from Pydantic `BaseModel` class. User can choose one or more configuration sources to create a Pydantic object based on application configuration schema.
 
-Library will then try to read from all provided configuration sources and merge them to build the pydantic application configuration object. Configuration sources are provides as a list of objects and precedence and priority of sources is determined by ordering of the sources in the list, e.g. first source in the list has lowest precendence, last one has the highest.
+Library will then try to read from all provided configuration sources and merge them to build the pydantic application configuration object.
+
+`Name of keys in configuration sources and confguration schema MUST match. It would have been nice to decouple two, but for the intended functionality, it's a minor enhancement.`
+
+Configuration sources are provided as a list of objects and precedence and priority of sources is determined by ordering of the sources in the list, e.g. first source in the list has lowest precendence, last one has the highest.
 
 If the configuration supports, library provides ability to save functionality for the application configuration object. By default, write capability is disabled.
 

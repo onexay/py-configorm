@@ -1,2 +1,1 @@
-# Configuration ORM for Python applications
-
+../README.md
