@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Sources - Configuration ORM for Python applications</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../assets/_mkdocstrings.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Sources";
+        var mkdocs_page_input_path = "sources.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> Configuration ORM for Python applications
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../core/">Core</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Sources</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="env/">Environment Variables</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="dotenv/">DotEnv File</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="toml/">TOML File</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="yaml/">YAML File</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="json/">JSON File</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Configuration ORM for Python applications</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Sources</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <div class="doc doc-object doc-module">
+
+
+
+<a id="configorm.sources.env_source"></a>
+    <div class="doc doc-contents first">
+
+      <p>ENVSource: A class for a environment variable configuration source.</p>
+<p>This module contains the ENVSource class, a class for a environment variable
+configuration source. It provides methods to load and save configuration data
+from/to environment variables.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>ENVSource</code></b>
+                  (<code><a class="autorefs autorefs-internal" title="configorm.sources.env_source.ENVSource" href="env/#configorm.sources.env_source.ENVSource">ENVSource</a></code>)
+              –
+              <div class="doc-md-description">
+                <p>The ENVSource class.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+<h2 id="configorm.sources.env_source-classes">Classes</h2>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="configorm.sources.env_source.ENVSource" class="doc doc-heading">
+            <code>ENVSource</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="configorm.sources.base.SourceBase">SourceBase</span></code></p>
+
+
+      <p>Class for a environment variable configuration source.</p>
+<p>This class is a subclass of <code>SourceBase</code> and represents a environment variable
+configuration source. It provides methods to load and save configuration data
+from/to environment variables.</p>
+<p>Environment variables are defined as per <code>[PREFIX]_[KEY][NESTING_SLUG][SUBKEY] = [VALUE]</code>
+format. For example, if <code>PREFIX</code> is set to <code>CFGORM</code> and <code>NESTING_SLUG</code> is
+set to <code>__</code>, then environment variables will be defined as 
+<code>CFGORM_[KEY]__[SUBKEY] = VALUE</code>. For providing bidirectional mutation operations
+for ORM, these variables need to be converted to a dictionary following the 
+semantics of the user specified by subclassing <a class="autorefs autorefs-internal" href="../core/#configorm.core.ConfigSchema">configorm.core.ConfigSchema</a>.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Attributes:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>prefix</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The prefix for environment variables.</p>
+              </div>
+            </li>
+            <li>
+              <b><code>nesting_slug</code></b>
+                  (<code>str</code>)
+              –
+              <div class="doc-md-description">
+                <p>The string used to determine nesting in environment variables.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><span class="doc-section-title">Methods:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><span title="configorm.sources.env_source.ENVSource.__init__">__init__</span></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>str = "CFGORM", readonly: bool = True, nesting_slug: str = "__"):
+Initializes a new instance of <code>ENVSource</code>.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="configorm.sources.env_source.ENVSource.load" href="env/#configorm.sources.env_source.ENVSource.load">load</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Load configuration data from this source.</p>
+<p>Returns:
+    dict: The loaded configuration data.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="configorm.sources.env_source.ENVSource.save" href="env/#configorm.sources.env_source.ENVSource.save">save</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>dict):
+Save configuration data to this source.</p>
+<p>Args:
+    data (dict): The configuration data to save.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><span title="configorm.sources.env_source.ENVSource.reload">reload</span></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Reload configuration data from this source.</p>
+<p>This method is called when the application is reloaded and the
+configuration data must be reloaded from the source.</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<h4 id="configorm.sources.env_source.ENVSource-functions">Functions</h4>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="configorm.sources.env_source.ENVSource.load" class="doc doc-heading">
+            <code class="highlight language-python">load()</code>
+
+</h5>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Load configuration data from this source.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Returns:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+<b><code>dict</code></b>(                  <code>dict</code>
+)              –
+              <div class="doc-md-description">
+                <p>The loaded configuration data.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h5 id="configorm.sources.env_source.ENVSource.save" class="doc doc-heading">
+            <code class="highlight language-python">save(data)</code>
+
+</h5>
+
+
+    <div class="doc doc-contents ">
+
+      <p>Save configuration data to this source.</p>
+
+
+<table class="field-list">
+  <colgroup>
+    <col class="field-name" />
+    <col class="field-body" />
+  </colgroup>
+  <tbody valign="top">
+    <tr class="field">
+      <th class="field-name">Parameters:</th>
+      <td class="field-body">
+        <ul class="first simple">
+            <li>
+              <b><code>data</code></b>
+                  (<code>dict</code>)
+              –
+              <div class="doc-md-description">
+                <p>The configuration data to save.</p>
+              </div>
+            </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
