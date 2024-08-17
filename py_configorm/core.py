@@ -12,7 +12,7 @@ from typing import List, Type
 from pydantic import BaseModel
 import pydantic
 
-from configorm.exception import ConfigORMError
+from py_configorm.exception import ConfigORMError
 
 
 class ConfigSchema(BaseModel):

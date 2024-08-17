@@ -7,8 +7,8 @@ This module is part of the `configorm` package for handling configuration data.
 
 from pathlib import Path
 import yaml
-from configorm.exception import ConfigORMError
-from configorm.sources.base import SourceBase
+from py_configorm.exception import ConfigORMError
+from py_configorm.sources.base import SourceBase
 
 
 class YAMLSource(SourceBase):

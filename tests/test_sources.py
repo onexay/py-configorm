@@ -1,11 +1,11 @@
 import os
 from pathlib import Path
 from logging import getLogger
-from configorm.sources.dotenv_source import DOTENVSource
-from configorm.sources.toml_source import TOMLSource
-from configorm.sources.json_source import JSONSource
-from configorm.sources.yaml_source import YAMLSource
-from configorm.sources.env_source import ENVSource
+from py_configorm.sources.dotenv_source import DOTENVSource
+from py_configorm.sources.toml_source import TOMLSource
+from py_configorm.sources.json_source import JSONSource
+from py_configorm.sources.yaml_source import YAMLSource
+from py_configorm.sources.env_source import ENVSource
 import tempfile
 
 toml = """

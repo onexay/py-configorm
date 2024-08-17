@@ -12,7 +12,7 @@ Attributes:
 
 import os
 
-from configorm.sources.base import SourceBase
+from py_configorm.sources.base import SourceBase
 
 
 class ENVSource(SourceBase):

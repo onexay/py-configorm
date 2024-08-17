@@ -5,11 +5,11 @@ import tempfile
 from pydantic import BaseModel, Field, PostgresDsn, RedisDsn
 from pydantic_core import MultiHostUrl, Url
 import pytest
-from configorm.core import ConfigORM, ConfigSchema
-from configorm.exception import ConfigORMError
-from configorm.sources.dotenv_source import DOTENVSource
-from configorm.sources.json_source import JSONSource
-from configorm.sources.toml_source import TOMLSource
+from py_configorm.core import ConfigORM, ConfigSchema
+from py_configorm.exception import ConfigORMError
+from py_configorm.sources.dotenv_source import DOTENVSource
+from py_configorm.sources.json_source import JSONSource
+from py_configorm.sources.toml_source import TOMLSource
 
 toml = """
     [Service]

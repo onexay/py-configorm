@@ -1,34 +1,28 @@
 """
-This module contains the TOMLSource class, a class for a TOML configuration
+This module contains the JSONSource class, a class for a JSON configuration
 source.
 
-TOML (Tom's Obvious, Minimal Language) is a minimal configuration file format
-that is easy to read due to obvious semantics.
+Attributes:
+    JSONSource (JSONSource): The JSONSource class.
 
-This module is part of the `configorm` package for handling configuration data.
 """
 
+import json
 from pathlib import Path
 
-import toml
-from configorm.exception import ConfigORMError
-from configorm.sources.base import SourceBase
+from py_configorm.exception import ConfigORMError
+from py_configorm.sources.base import SourceBase
 
 
-class TOMLSource(SourceBase):
-    """
-    Class for a TOML configuration source.
-
-    This class is a subclass of `SourceBase` and represents a TOML configuration
-    source. It provides methods to load and save configuration data from/to a
-    TOML file.
+class JSONSource(SourceBase):
+    """A class for a JSON configuration source.
 
     Attributes:
-        _file_path (Path): The path to the TOML configuration file.
+        _file_path (Path): The path to the JSON configuration file.
 
     Methods:
         __init__(self, file_path: Path, readonly: bool = True):
-            Initializes a new instance of `TOMLSource`.
+            Initializes a new instance of `JSONSource`.
 
         load(self) -> dict:
             Load configuration data from this source.
@@ -47,7 +41,6 @@ class TOMLSource(SourceBase):
 
             This method is called when the application is reloaded and the
             configuration data must be reloaded from the source.
-
     """
 
     def __init__(self, file_path: Path, readonly: bool = True):
@@ -58,44 +51,46 @@ class TOMLSource(SourceBase):
         """
         Load configuration data from this source.
 
-        This method loads the configuration data from the TOML file specified
+        This method loads the configuration data from the JSON file specified
         during the initialization of this class.
 
         Returns:
             dict: The loaded configuration data.
 
         Raises:
-            FileNotFoundError: If the specified TOML file does not exist.
+            FileNotFoundError: If the specified JSON file does not exist.
+
+            json.JSONDecodeError: If there is an error decoding the JSON data.
 
         """
         try:
             with open(self._file_path, "r") as f:
-                return toml.load(f)
+                return json.load(f)
         except FileNotFoundError:
             raise
-        except toml.TomlDecodeError as e:
-            raise ConfigORMError("Error loading TOML file: {}", format(e))
+        except json.JSONDecodeError as e:
+            raise ConfigORMError("Error loading JSON file: {}", format(e))
 
     def save(self, data: dict):
         """
         Save configuration data to this source.
 
-        This method saves the configuration data to the TOML file specified
-        during the initialization of this class. 
+        This method saves the configuration data to the JSON file specified
+        during the initialization of this class.
 
         Args:
-            data (dict): _description_
+            data (dict): The configuration data to save.
 
         Raises:
-            PermissionError: _description_
+            PermissionError: If the source is read-only.
         """
         try:
-            if self._readonly:
+            if self.readonly:
                 raise PermissionError("This source is read-only.")
 
             with open(self._file_path, "w") as f:
-                toml.dump(data, f)
+                json.dump(data, f)
         except FileNotFoundError:
             raise
-        except toml.TomlDecodeError as e:
-            raise ConfigORMError("Error saving TOML file: {}", format(e))
+        except json.JSONDecodeError as e:
+            raise ConfigORMError("Error saving JSON file: {}", format(e))

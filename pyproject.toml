@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "configorm"
+name = "py-configorm"
 version = "0.1.0"
 description = "Configuration ORM for Python apps"
 authors = ["Akshay Ranjan <akshay.ranjan@gmail.com>"]
