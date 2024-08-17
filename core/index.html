@@ -90,8 +90,40 @@
 
 
 
-<a id="configorm.core"></a>
+<a id="py_configorm.core"></a>
     <div class="doc doc-contents first">
+
+      <p>ConfigORM - A simple configuration library.</p>
+<p>This module contains the ConfigORM class, a class for handling configuration data.</p>
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="py_configorm.core.ConfigSchema ">ConfigSchema </span></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>The ConfigSchema class.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="py_configorm.core.ConfigORM ">ConfigORM </span></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>The ConfigORM class.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
@@ -102,13 +134,13 @@
 
 
 
-<h2 id="configorm.core-classes">Classes</h2>
+<h2 id="py_configorm.core-classes">Classes</h2>
 
 <div class="doc doc-object doc-class">
 
 
 
-<h3 id="configorm.core.ConfigORM" class="doc doc-heading">
+<h3 id="py_configorm.core.ConfigORM" class="doc doc-heading">
             <code>ConfigORM</code>
 
 
@@ -129,12 +161,12 @@
 
 
 
-<h4 id="configorm.core.ConfigORM-functions">Functions</h4>
+<h4 id="py_configorm.core.ConfigORM-functions">Functions</h4>
 
 <div class="doc doc-object doc-function">
 
 
-<h5 id="configorm.core.ConfigORM.load_config" class="doc doc-heading">
+<h5 id="py_configorm.core.ConfigORM.load_config" class="doc doc-heading">
             <code class="highlight language-python">load_config()</code>
 
 </h5>
@@ -159,7 +191,7 @@ merged together and returned as a single <code>ConfigSchema</code> object.</p>
       <td class="field-body">
         <ul class="first simple">
             <li>
-<b><code>ConfigSchema</code></b>(                  <code><a class="autorefs autorefs-internal" title="configorm.core.ConfigSchema" href="#configorm.core.ConfigSchema">ConfigSchema</a></code>
+<b><code>ConfigSchema</code></b>(                  <code><a class="autorefs autorefs-internal" title="py_configorm.core.ConfigSchema" href="#py_configorm.core.ConfigSchema">ConfigSchema</a></code>
 )              –
               <div class="doc-md-description">
                 <p>The loaded configuration data.</p>
@@ -177,7 +209,7 @@ merged together and returned as a single <code>ConfigSchema</code> object.</p>
 <div class="doc doc-object doc-function">
 
 
-<h5 id="configorm.core.ConfigORM.reload_config" class="doc doc-heading">
+<h5 id="py_configorm.core.ConfigORM.reload_config" class="doc doc-heading">
             <code class="highlight language-python">reload_config()</code>
 
 </h5>
@@ -197,7 +229,7 @@ merged together and returned as a single <code>ConfigSchema</code> object.</p>
 <div class="doc doc-object doc-function">
 
 
-<h5 id="configorm.core.ConfigORM.save_config" class="doc doc-heading">
+<h5 id="py_configorm.core.ConfigORM.save_config" class="doc doc-heading">
             <code class="highlight language-python">save_config()</code>
 
 </h5>
@@ -248,7 +280,7 @@ during the initialization of this class.</p>
 
 
 
-<h3 id="configorm.core.ConfigSchema" class="doc doc-heading">
+<h3 id="py_configorm.core.ConfigSchema" class="doc doc-heading">
             <code>ConfigSchema</code>
 
 
@@ -260,8 +292,7 @@ during the initialization of this class.</p>
               Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
 
 
-      <p>This is a placeholder schema for user-defined application configuration
-schema.</p>
+      <p>Base class for all user defined configuration schemas.</p>
 
 
     </div>

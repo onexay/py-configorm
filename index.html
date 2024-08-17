@@ -43,6 +43,22 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#important-note">Important Note</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#read-write-capability">Read-Write Capability</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#example">Example</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#using-json">Using JSON</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#using-toml">Using TOML</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#using-yaml">Using YAML</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#using-dotenv-files-environment-variables">Using DotEnv files / Environment variables</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                 </li>
               </ul>
@@ -90,17 +106,19 @@
 <p><img alt="Test Status" src="https://github.com/onexay/py-configorm/actions/workflows/python-package.yml/badge.svg" /></p>
 <p>A python library which provides ORM like semantics to application configuration. At present, it provides the expected functionality but requires some more work in terms of error handling. </p>
 <p>The library works on the concept of configuration sources. Currently following sources are supported, </p>
-<ol>
-<li>TOML</li>
-<li>JSON</li>
-<li>YAML</li>
-<li>DotEnv</li>
-<li>Environment Variables</li>
-</ol>
-<p>User defines a application settings schema by subclassing from Pydantic <code>BaseModel</code> class. User can choose one or more configuration sources to create a Pydantic object based on application configuration schema.</p>
+<ul>
+<li><a href="sources/toml/">TOML</a></li>
+<li><a href="sources/json/">JSON</a></li>
+<li><a href="sources/yaml/">YAML</a></li>
+<li><a href="sources/dotenv/">DotEnv</a></li>
+<li><a href="sources/env/">Environment Variables</a></li>
+</ul>
+<p>User defines a application settings schema by subclassing from <a href="core/">ConfigSchema</a> class. User can choose one or more configuration sources to create a Pydantic object based on application configuration schema.</p>
 <p>Library will then try to read from all provided configuration sources and merge them to build the pydantic application configuration object.</p>
-<p><code>Name of keys in configuration sources and confguration schema MUST match. It would have been nice to decouple two, but for the intended functionality, it's a minor enhancement.</code></p>
+<h2 id="important-note">Important Note</h2>
+<p>Name of keys in configuration sources and confguration schema MUST match. It would have been nice to decouple two, but for the intended functionality, it's a minor enhancement.</p>
 <p>Configuration sources are provided as a list of objects and precedence and priority of sources is determined by ordering of the sources in the list, e.g. first source in the list has lowest precendence, last one has the highest.</p>
+<h2 id="read-write-capability">Read-Write Capability</h2>
 <p>If the configuration supports, library provides ability to save functionality for the application configuration object. By default, write capability is disabled.</p>
 <table>
 <thead>
@@ -138,13 +156,28 @@
 </tr>
 </tbody>
 </table>
-<p>Here is an example:</p>
-<pre><code class="language-json">    {
-        &quot;Service&quot;: {
-            &quot;Host&quot;: &quot;localhost&quot;,
-            &quot;Port&quot;: 18080
-        },
-    }
+<h2 id="example">Example</h2>
+<h3 id="using-json">Using JSON</h3>
+<pre><code class="language-json">{
+    &quot;Service&quot;: {
+        &quot;Host&quot;: &quot;localhost&quot;,
+        &quot;Port&quot;: 18080
+    },
+}
+</code></pre>
+<h3 id="using-toml">Using TOML</h3>
+<pre><code class="language-toml">[Service]
+Host = &quot;localhost&quot;,
+Port = 18080
+</code></pre>
+<h3 id="using-yaml">Using YAML</h3>
+<pre><code class="language-yaml">Service:
+    Host: &quot;localhost&quot;
+    Port: 18080
+</code></pre>
+<h3 id="using-dotenv-files-environment-variables">Using DotEnv files / Environment variables</h3>
+<pre><code class="language-env">CFGORM_SERVICE__HOST=localhost
+CFGORM_SERVICE__PORT=8080
 </code></pre>
 <pre><code class="language-python">
 class TestServiceConfig(BaseModel):
@@ -212,5 +245,5 @@ print(cfg)
 
 <!--
 MkDocs version : 1.6.0
-Build Date UTC : 2024-08-17 12:25:07.408605+00:00
+Build Date UTC : 2024-08-17 18:16:11.741214+00:00
 -->
