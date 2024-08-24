@@ -10,11 +10,10 @@ Attributes:
 import json
 from pathlib import Path
 
-from py_configorm.exception import ConfigORMError
-from py_configorm.sources.base import SourceBase
+from py_configorm.sources.base import BaseSource
 
 
-class JSONSource(SourceBase):
+class JSONSource(BaseSource):
     """A class for a JSON configuration source.
 
     Attributes:
@@ -43,9 +42,8 @@ class JSONSource(SourceBase):
             configuration data must be reloaded from the source.
     """
 
-    def __init__(self, file_path: Path, readonly: bool = True):
-        super().__init__(readonly)
-        self._file_path = file_path
+    def __init__(self, filepath: Path | None, readonly: bool = True):
+        super().__init__(filepath, readonly)
 
     def load(self) -> dict:
         """
@@ -64,12 +62,10 @@ class JSONSource(SourceBase):
 
         """
         try:
-            with open(self._file_path, "r") as f:
+            with open(self.filepath, "r") as f:
                 return json.load(f)
-        except FileNotFoundError:
-            raise
-        except json.JSONDecodeError as e:
-            raise ConfigORMError("Error loading JSON file: {}", format(e))
+        except Exception as e:
+            raise e
 
     def save(self, data: dict):
         """
@@ -88,9 +84,7 @@ class JSONSource(SourceBase):
             if self.readonly:
                 raise PermissionError("This source is read-only.")
 
-            with open(self._file_path, "w") as f:
+            with open(self.filepath, "w") as f:
                 json.dump(data, f)
-        except FileNotFoundError:
-            raise
-        except json.JSONDecodeError as e:
-            raise ConfigORMError("Error saving JSON file: {}", format(e))
+        except Exception as e:
+            raise e

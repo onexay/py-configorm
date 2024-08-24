@@ -6,7 +6,6 @@ from pydantic import BaseModel, Field, PostgresDsn, RedisDsn
 from pydantic_core import MultiHostUrl, Url
 import pytest
 from py_configorm.core import ConfigORM, ConfigSchema
-from py_configorm.exception import ConfigORMError
 from py_configorm.sources.dotenv_source import DOTENVSource
 from py_configorm.sources.json_source import JSONSource
 from py_configorm.sources.toml_source import TOMLSource
@@ -68,15 +67,15 @@ def test_valid_config_load():
     config_file_dotenv = Path(os.path.join(tempfile.mkdtemp(), "config.env"))
     config_file_dotenv.write_text(dotenv)
 
-    toml_source = TOMLSource(file_path=Path(config_file_toml))
-    json_source = JSONSource(file_path=Path(config_file_json))
-    dotenv_source = DOTENVSource(file_path=Path(config_file_dotenv))
+    toml_source = TOMLSource(filepath=Path(config_file_toml))
+    json_source = JSONSource(filepath=Path(config_file_json))
+    dotenv_source = DOTENVSource(filepath=Path(config_file_dotenv))
 
     cfg_orm = ConfigORM(
         schema=ConfigTest, sources=[toml_source, json_source, dotenv_source]
     )
 
-    cfg: ConfigTest = cfg_orm.load_config()
+    cfg: ConfigTest = cfg_orm.load()
 
     assert isinstance(cfg, ConfigTest)
 
@@ -92,8 +91,8 @@ def test_invalid_config_load():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.json"))
     config_file.write_text(json)
 
-    json_source = JSONSource(file_path=Path(config_file))
+    json_source = JSONSource(filepath=Path(config_file))
 
-    with pytest.raises(ConfigORMError):
+    with pytest.raises(Exception):
         cfg_orm = ConfigORM(schema=ConfigTest, sources=[json_source])
-        cfg: ConfigTest = cfg_orm.load_config()
+        cfg: ConfigTest = cfg_orm.load()

@@ -13,10 +13,10 @@ from pathlib import Path
 
 import dotenv
 
-from py_configorm.sources.base import SourceBase
+from py_configorm.sources.base import BaseSource
 
 
-class DOTENVSource(SourceBase):
+class DOTENVSource(BaseSource):
     """Class for a dotenv configuration source.
 
     This class is a subclass of `SourceBase` and represents a dotenv
@@ -52,13 +52,12 @@ class DOTENVSource(SourceBase):
 
     def __init__(
         self,
-        file_path: Path,
+        filepath: Path,
         prefix: str = "CFGORM_",
         readonly: bool = True,
         nesting_slug: str = "__",
     ):
-        super().__init__(readonly)
-        self._file_path = file_path
+        super().__init__(filepath, readonly)
         self._prefix = prefix
         self._nesting_slug = nesting_slug
 
@@ -76,7 +75,7 @@ class DOTENVSource(SourceBase):
         """
         try:
             data = {}
-            with open(self._file_path, "r") as f:
+            with open(self.filepath, "r") as f:
                 vars_ = dotenv.dotenv_values(dotenv_path=f.name)
                 for key, value in vars_.items():
                     n_key = key.split(self._prefix, maxsplit=1)[1]
@@ -91,8 +90,8 @@ class DOTENVSource(SourceBase):
                         data[l1_keys[0]] = {}
                         data[l1_keys[0]][l1_keys[1]] = value
                 return data
-        except FileNotFoundError:
-            raise
+        except Exception as e:
+            raise e
 
     def save(self, data: dict):
         """Save configuration data to this source.

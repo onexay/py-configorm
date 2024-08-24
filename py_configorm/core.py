@@ -10,26 +10,22 @@ Classes:
 
 from typing import List, Type
 from pydantic import BaseModel
-import pydantic
 
 from py_configorm.exception import ConfigORMError
+from py_configorm.sources.base import BaseSource
 
 
 class ConfigSchema(BaseModel):
-    """
-    Base class for all user defined configuration schemas.
-    """
-
     pass
 
 
 class ConfigORM:
-    def __init__(self, schema: Type[ConfigSchema], sources: List):
+    def __init__(self, schema: Type[ConfigSchema], sources: List[BaseSource]):
         self._schema = schema
         self._sources = sources
-        self._config = self.load_config()
+        self._config = None
 
-    def load_config(self) -> ConfigSchema:
+    def load(self) -> ConfigSchema:
         """
         Load configuration data from all the sources.
 
@@ -58,13 +54,9 @@ class ConfigORM:
 
             return self._schema(**config_data)
         except Exception as e:
-            raise ConfigORMError("Error loading configuration data: {}", format(e))
-        except pydantic.ValidationError as e:
-            raise ConfigORMError("Invalid configuration data: {}", format(e))
-        except TypeError as e:
-            raise ConfigORMError("Invalid configuration data type: {}", format(e))
+            raise e
 
-    def save_config(self):
+    def save(self):
         """
         Save configuration data to all the sources.
 
@@ -75,12 +67,15 @@ class ConfigORM:
             PermissionError: If one of the sources is read-only.
         """
 
-        if len(self._sources) == 0:
-            raise ConfigORMError("No configuration sources specified")
+        try:
+            if len(self._sources) == 0:
+                raise ConfigORMError("No configuration sources specified")
 
-        for source in self._sources:
-            if not source.readonly:
-                source.save(self._config.model_dump())
+            for source in self._sources:
+                if not source.readonly:
+                    source.save(self._config.model_dump())
+        except Exception as e:
+            raise e
 
     def reload_config(self):
         """
@@ -90,4 +85,12 @@ class ConfigORM:
         during the initialization of this class. The configuration data is
         merged together and returned as a single `ConfigSchema` object.
         """
-        self._config = self.load_config()
+        self._config = self.load()
+
+    @property
+    def config(self) -> ConfigSchema | None:
+        return self._config
+
+    @property
+    def sources(self) -> List:
+        return self._sources

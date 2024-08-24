@@ -42,7 +42,7 @@ def test_toml_source_load():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.toml"))
     config_file.write_text(toml)
 
-    source = TOMLSource(file_path=Path(config_file))
+    source = TOMLSource(filepath=Path(config_file))
     config = source.load()
 
     logger.debug(config)
@@ -56,7 +56,7 @@ def test_json_source_load(tmp_path):
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.json"))
     config_file.write_text(json)
 
-    source = JSONSource(file_path=Path(config_file))
+    source = JSONSource(filepath=Path(config_file))
     config = source.load()
 
     print(config)
@@ -70,7 +70,7 @@ def test_yaml_source_load(tmp_path):
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.yaml"))
     config_file.write_text(yaml)
 
-    source = YAMLSource(file_path=Path(config_file))
+    source = YAMLSource(filepath=Path(config_file))
     config = source.load()
 
     logger.info(config)
@@ -96,7 +96,7 @@ def test_dotenv_source_load(tmp_path):
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.env"))
     config_file.write_text(dotenv)
 
-    source = DOTENVSource(file_path=Path(config_file))
+    source = DOTENVSource(filepath=Path(config_file))
     config = source.load()
 
     assert isinstance(config, dict)

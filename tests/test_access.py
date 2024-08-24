@@ -4,6 +4,7 @@ from logging import getLogger
 
 import pytest
 from py_configorm.sources.dotenv_source import DOTENVSource
+from py_configorm.sources.ini_source import INISource
 from py_configorm.sources.toml_source import TOMLSource
 from py_configorm.sources.json_source import JSONSource
 from py_configorm.sources.yaml_source import YAMLSource
@@ -68,6 +69,13 @@ dotenv_modified = \
     CFGORM_Service__Port=4000
     """
 
+ini = \
+    """
+    [Service]
+    host = localhost
+    port = 8080
+    """
+
 logger = getLogger("TestSources")
 
 
@@ -75,7 +83,7 @@ def test_toml_source_ro():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.toml"))
     config_file.write_text(toml)
 
-    source = TOMLSource(file_path=Path(config_file))
+    source = TOMLSource(filepath=Path(config_file))
     config = source.load()
 
     assert isinstance(config, dict)
@@ -90,7 +98,7 @@ def test_toml_source_rw():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.toml"))
     config_file.write_text(toml)
 
-    source = TOMLSource(file_path=Path(config_file), readonly=False)
+    source = TOMLSource(filepath=Path(config_file), readonly=False)
     config = source.load()
 
     assert isinstance(config, dict)
@@ -100,7 +108,7 @@ def test_toml_source_rw():
     config["Service"]["Port"] = 4000
     source.save(config)
 
-    source = TOMLSource(file_path=Path(config_file))
+    source = TOMLSource(filepath=Path(config_file))
     config = source.load()
 
     assert isinstance(config, dict)
@@ -111,7 +119,7 @@ def test_json_source_ro():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.json"))
     config_file.write_text(json)
 
-    source = JSONSource(file_path=Path(config_file))
+    source = JSONSource(filepath=Path(config_file))
     config = source.load()
 
     assert isinstance(config, dict)
@@ -126,7 +134,7 @@ def test_json_source_rw():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.json"))
     config_file.write_text(json)
 
-    source = JSONSource(file_path=Path(config_file), readonly=False)
+    source = JSONSource(filepath=Path(config_file), readonly=False)
     config = source.load()
 
     assert isinstance(config, dict)
@@ -136,7 +144,7 @@ def test_json_source_rw():
     config["Service"]["Port"] = 4000
     source.save(config)
 
-    source = JSONSource(file_path=Path(config_file))
+    source = JSONSource(filepath=Path(config_file))
     config = source.load()
 
     assert isinstance(config, dict)
@@ -147,7 +155,7 @@ def test_yaml_source_ro():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.yaml"))
     config_file.write_text(yaml)
 
-    source = YAMLSource(file_path=Path(config_file))
+    source = YAMLSource(filepath=Path(config_file))
     config = source.load()
 
     logger.info(config)
@@ -164,7 +172,7 @@ def test_yaml_source_rw():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.yaml"))
     config_file.write_text(yaml)
 
-    source = YAMLSource(file_path=Path(config_file), readonly=False)
+    source = YAMLSource(filepath=Path(config_file), readonly=False)
     config = source.load()
 
     logger.info(config)
@@ -176,7 +184,7 @@ def test_yaml_source_rw():
     config["Service"]["Port"] = 4000
     source.save(config)
 
-    source = YAMLSource(file_path=Path(config_file))
+    source = YAMLSource(filepath=Path(config_file))
     config = source.load()
 
     logger.info(config)
@@ -225,7 +233,7 @@ def test_dotenv_source_ro():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.env"))
     config_file.write_text(dotenv)
 
-    source = DOTENVSource(file_path=Path(config_file))
+    source = DOTENVSource(filepath=Path(config_file))
     config = source.load()
 
     assert isinstance(config, dict)
@@ -240,13 +248,43 @@ def test_dotenv_source_rw():
     config_file = Path(os.path.join(tempfile.mkdtemp(), "config.env"))
     config_file.write_text(dotenv)
 
-    source = DOTENVSource(file_path=Path(config_file), readonly=False)
+    source = DOTENVSource(filepath=Path(config_file), readonly=False)
     config = source.load()
 
     assert isinstance(config, dict)
     assert config["Service"]["Host"] == "localhost"
     assert config["Service"]["Port"] == "8080"
 
-    config["CFGORM_SERVICE__PORT"] = "4000"
+    config["Service"]["Port"] = "4000"
+    with pytest.raises(NotImplementedError):
+        source.save(config)
+
+def test_ini_source_ro():
+    config_file = Path(os.path.join(tempfile.mkdtemp(), "config.ini"))
+    config_file.write_text(ini)
+
+    source = INISource(filepath=Path(config_file))
+    config = source.load()
+
+    assert isinstance(config, dict)
+    assert config["Service"]["host"] == "localhost"
+    assert config["Service"]["port"] == "8080"
+
+    config["Service"]["Host"] = "4000"
+    with pytest.raises(PermissionError):
+        source.save(config)
+
+def test_ini_source_rw():
+    config_file = Path(os.path.join(tempfile.mkdtemp(), "config.ini"))
+    config_file.write_text(ini)
+
+    source = INISource(filepath=Path(config_file), readonly=False)
+    config = source.load()
+
+    assert isinstance(config, dict)
+    assert config["Service"]["host"] == "localhost"
+    assert config["Service"]["port"] == "8080"
+
+    config["Service"]["port"] = "4000"
     with pytest.raises(NotImplementedError):
         source.save(config)

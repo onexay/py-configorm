@@ -1,9 +1,8 @@
 """
-ENVSource: A class for a environment variable configuration source.
+ENVSource: Class implementing a environment variable configuration source.
 
-This module contains the ENVSource class, a class for a environment variable
-configuration source. It provides methods to load and save configuration data
-from/to environment variables.
+This module provides methods and attributes to load and save configuration
+from environment variables.
 
 Attributes:
     ENVSource (ENVSource): The ENVSource class.
@@ -12,10 +11,10 @@ Attributes:
 
 import os
 
-from py_configorm.sources.base import SourceBase
+from py_configorm.sources.base import BaseSource
 
 
-class ENVSource(SourceBase):
+class ENVSource(BaseSource):
     """
     Class for a environment variable configuration source.
 
@@ -25,10 +24,36 @@ class ENVSource(SourceBase):
 
     Environment variables are defined as per `[PREFIX]_[KEY][NESTING_SLUG][SUBKEY] = [VALUE]`
     format. For example, if `PREFIX` is set to `CFGORM` and `NESTING_SLUG` is
-    set to `__`, then environment variables will be defined as 
+    set to `__`, then environment variables will be defined as
     `CFGORM_[KEY]__[SUBKEY] = VALUE`. For providing bidirectional mutation operations
-    for ORM, these variables need to be converted to a dictionary following the 
+    for ORM, these variables need to be converted to a dictionary following the
     semantics of the user specified by subclassing [py_configorm.core.ConfigSchema][].
+
+    This library only supports single level of nesting of configuration data, i.e.,
+    for environment variables containing multiple `NESTING_SLUGS`, only the first
+    `NESTING_SLUG` will be considered for nesting, the remaining will become the
+    nested configuration attribute. For example, if environment variable is,
+    `CFGORM_KEY1__NESTEDKEY2__NESTEDKEY3 = VALUE`, only `KEY1` will be considered
+    for nesting and the remaining will become the nested configuration attribute as
+    following,
+
+    ```env    
+    CFGORM_KEY1__NESTEDKEY1__NESTEDKEY1 = VALUE
+    CFGORM_KEY2__NESTEDKEY1 = VALUE
+    CFGORM_KEY3 = VALUE
+    ```
+
+    ```python
+    data = {
+        'KEY1': {
+            'NESTEDKEY1__NESTEDKEY1': 'VALUE'
+        },
+        'KEY2': {
+            'NESTEDKEY1': 'VALUE'
+        },
+        'KEY3': 'VALUE'
+    }
+    ```
 
     Attributes:
         prefix (str): The prefix for environment variables.
@@ -60,7 +85,7 @@ class ENVSource(SourceBase):
     def __init__(
         self, prefix: str = "CFGORM_", readonly: bool = True, nesting_slug: str = "__"
     ):
-        super().__init__(readonly)
+        super().__init__(None, readonly)
         self._prefix = prefix
         self._nesting_slug = nesting_slug
 
@@ -99,7 +124,7 @@ class ENVSource(SourceBase):
         """
         if self.readonly:
             raise PermissionError("This source is read-only.")
-        
+
         for k0, v0 in data.items():
             if isinstance(v0, dict):
                 for k1, v1 in v0.items():

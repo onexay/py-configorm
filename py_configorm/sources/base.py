@@ -6,9 +6,10 @@ This is a python library for handling configuration data.
 """
 
 from abc import ABC, abstractmethod
+from pathlib import Path
+from typing import Any, Dict
 
-
-class SourceBase(ABC):
+class BaseSource(ABC):
     """
     Base class for all configuration sources.
 
@@ -17,14 +18,16 @@ class SourceBase(ABC):
     data.
 
     Attributes:
+        filepath (Path): The path to the source configuration file.
         readonly (bool): Whether the source is read-only.
     """
 
-    def __init__(self, readonly: bool = True):
+    def __init__(self, filepath: Path | None, readonly: bool = True):
         self._readonly = readonly
+        self._filepath = filepath
 
     @abstractmethod
-    def load(self) -> dict:
+    def load(self) -> Dict[Any, Any]:
         """
         Load configuration data from this source.
 
@@ -34,7 +37,7 @@ class SourceBase(ABC):
         pass
 
     @abstractmethod
-    def save(self, data: dict):
+    def save(self, data: Dict[str, Any]):
         """
         Save configuration data to this source.
 
@@ -43,16 +46,9 @@ class SourceBase(ABC):
         """
         pass
 
-    # @abstractmethod
-    # def reload(self):
-    #     """
-    #     Reload configuration data from this source.
-
-    #     This method is called when the application is reloaded and the
-    #     configuration data must be reloaded from the source.
-
-    #     """
-    #     pass
+    @property
+    def filepath(self) -> Path | None:
+        return self._filepath
 
     @property
     def readonly(self) -> bool:
